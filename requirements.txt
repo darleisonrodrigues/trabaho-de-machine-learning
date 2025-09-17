@@ -1,0 +1,14 @@
+# Dependências principais conforme enunciado
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0      # PCA, t-SNE, StandardScaler
+matplotlib>=3.4.0        # Visualizações estáticas
+plotly>=5.0.0           # Visualizações interativas
+umap-learn>=0.5.0       # Algoritmo UMAP
+pillow>=8.0.0           # Processamento de imagens
+opencv-python>=4.5.0    # Visão computacional
+tqdm>=4.60.0            # Barras de progresso
+joblib>=1.0.0           # Serialização de objetos
+
+# Dependências opcionais
+seaborn>=0.11.0         # Opcional para heatmaps mais bonitos

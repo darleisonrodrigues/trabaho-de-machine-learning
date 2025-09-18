@@ -1,14 +1,22 @@
-# 🔬 Projeto de Redução de Dimensionalidade - Machine Learning
+# 🔬 Projeto de Redução de Dimensionalidade e Clustering - Machine Learning
 
-Projeto organizado para a **Atividade de Redução de Dimensionalidade** usando **Paradigma Não-Supervisionado de Machine Learning** com imagens de faces.
+Projeto organizado para as **Atividades de Redução de Dimensionalidade (Etapa 1.1) e Clustering (Etapa 1.2)** usando **Paradigma Não-Supervisionado de Machine Learning** com imagens de faces.
 
-## 📋 Objetivo
+## 📋 Objetivos
 
+### Etapa 1.1 - Redução de Dimensionalidade
 Aplicar e comparar diferentes métodos de redução de dimensionalidade em um dataset de imagens de faces (128x120 pixels, 15.360 features):
 
 - **PCA** (Principal Component Analysis) - 90%, 80%, 75% da variância
 - **t-SNE** (t-Distributed Stochastic Neighbor Embedding) - visualização 2D
 - **UMAP** (Uniform Manifold Approximation and Projection) - 3, 15, 55, 101 dimensões
+
+### Etapa 1.2 - Clustering
+Aplicar algoritmos de clustering nos embeddings gerados e avaliar qualidade:
+
+- **K-means** e **K-medoids** para diferentes valores de K (2-25)
+- **Índice de Dunn** para avaliação da qualidade dos clusters
+- **Visualizações comparativas** e análise de resultados
 
 ## 🗂️ Estrutura do Projeto
 
@@ -20,15 +28,21 @@ ML/
 │   └── processed/              # Arquivos intermediários (npy, scaler, etc.)
 ├── outputs/
 │   ├── embeddings/             # Projeções salvas (CSV/NPY)
-│   └── figures/               # Gráficos e visualizações (PNG/HTML)
+│   ├── figures/               # Gráficos redução dimensionalidade (PNG/HTML)
+│   └── clustering/            # Resultados de clustering
+│       ├── results/           # Arquivos JSON com métricas
+│       └── figures/           # Visualizações de clusters e dashboards
 ├── src/                       # Scripts Python
 │   ├── dataset.py             # Carregamento e processamento de imagens
 │   ├── preprocess.py          # Padronização StandardScaler
 │   ├── reduce_pca.py          # Análise PCA
 │   ├── reduce_tsne.py         # Análise t-SNE
 │   ├── reduce_umap.py         # Análise UMAP
-│   └── visualize.py           # Visualizações genéricas
+│   ├── visualize.py           # Visualizações genéricas
+│   ├── clustering.py          # K-means, K-medoids, índice de Dunn
+│   └── visualize_clustering.py # Visualizações de clustering
 ├── main.py                   # Script principal (pipeline completo)
+├── clustering_analysis.py    # Script específico para clustering
 ├── requirements.txt          # Dependências
 ├── .gitignore               # Arquivos ignorados pelo Git
 └── README.md                # Esta documentação
@@ -87,6 +101,17 @@ Este comando executa todo o pipeline:
 4. Executa t-SNE (perplexity 5, 30, 50)
 5. Executa UMAP (3, 15, 55, 101 dimensões)
 6. Gera visualizações comparativas
+7. **Executa clustering (K-means e K-medoids)**
+8. **Calcula índices de Dunn**
+9. **Gera dashboards comparativos de clustering**
+
+### Execução Apenas de Clustering
+
+Se você já tem os embeddings gerados, pode executar apenas o clustering:
+
+```bash
+python clustering_analysis.py
+```
 
 ### Execução Modular
 
@@ -156,27 +181,56 @@ python src/visualize.py
 
 ## 📈 Interpretação dos Resultados
 
-### PCA
+### Redução de Dimensionalidade
+
+#### PCA
 - Analise a variância explicada acumulada
 - Compare o número de componentes necessárias
 - Use para redução dimensional preservando informação
 
-### t-SNE
+#### t-SNE
 - Observe agrupamentos visuais nas projeções 2D
 - Identifique separabilidade entre classes
 - Use para definir número de clusters para K-means/K-medoids
 
-### UMAP
+#### UMAP
 - Compare diferentes dimensionalidades
 - Analise preservação de estrutura local e global
 - Escolha dimensão baseada no trade-off informação/complexidade
 
+### Clustering
+
+#### Índice de Dunn
+- **Valores maiores indicam melhor clustering**
+- Fórmula: `min(distância entre clusters) / max(distância intra-cluster)`
+- Use para comparar diferentes valores de K e algoritmos
+
+#### Resultados Principais (Exemplo)
+```
+🏆 MELHORES RESULTADOS GLOBAIS:
+KMEANS: UMAP 15D com K=22 (Dunn: 1.5758)
+KMEDOIDS: UMAP 15D com K=3 (Dunn: 0.4011)
+
+💡 RECOMENDAÇÕES:
+• Para baixa dimensionalidade: UMAP 3D
+• Para alta dimensionalidade: UMAP 15D
+• Algoritmo com melhor performance média: K-means
+```
+
+#### Visualizações Geradas
+- **Gráficos de Dunn**: Comparação de qualidade por K
+- **Método do Cotovelo**: Análise de inertia
+- **Heatmaps**: Comparação entre embeddings
+- **Clusters 2D/3D**: Visualização dos agrupamentos
+
 ## 🎯 Próximos Passos
 
 1. **Análise Visual**: Examine os gráficos gerados para identificar padrões
-2. **Clustering**: Use os embeddings para K-means e K-medoids
-3. **Validação**: Compare separabilidade entre métodos
-4. **Otimização**: Ajuste hiperparâmetros baseado nos resultados
+2. **Interpretação de Clustering**: Analise os índices de Dunn e escolha melhores K
+3. **Comparação de Métodos**: Compare eficácia entre PCA, t-SNE e UMAP
+4. **Validação**: Compare separabilidade visual com métricas quantitativas
+5. **Otimização**: Ajuste hiperparâmetros baseado nos resultados
+6. **Relatório**: Use dashboards interativos para apresentação de resultados
 
 ## 📦 Dependências
 

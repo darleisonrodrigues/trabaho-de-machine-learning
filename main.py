@@ -19,6 +19,38 @@ from reduce_tsne import run_tsne_analysis
 from reduce_umap import run_umap_analysis
 from visualize import create_embedding_dashboard
 
+# Importar função de clustering
+def step_7_clustering_analysis():
+    """Executa a análise de clustering da Etapa 1.2."""
+    import subprocess
+    import sys
+    
+    print("🔗 PASSO 7: Análise de Clustering")
+    print("-" * 50)
+    print("📊 Executando K-means e K-medoids com índice de Dunn...")
+    
+    try:
+        # Executar script de clustering
+        result = subprocess.run([sys.executable, "clustering_analysis.py"], 
+                              capture_output=True, text=True, check=True)
+        
+        print("✅ Análise de clustering concluída!")
+        print("   • K-means e K-medoids aplicados")
+        print("   • Índices de Dunn calculados")
+        print("   • Visualizações geradas")
+        print("   • Dashboard comparativo criado")
+        
+        return True
+        
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Erro na análise de clustering: {e}")
+        print("Saída do erro:")
+        print(e.stderr)
+        return False
+    except Exception as e:
+        print(f"❌ Erro inesperado: {e}")
+        return False
+
 
 def print_header():
     """Imprime cabeçalho do programa."""
@@ -233,9 +265,10 @@ def print_summary():
     print()
     print("🎯 PRÓXIMOS PASSOS:")
     print("   1. Analise os gráficos em outputs/figures/")
-    print("   2. Use os embeddings CSV para clustering (K-means, K-medoids)")
-    print("   3. Compare a separabilidade visual entre os métodos")
-    print("   4. Escolha os melhores parâmetros para seu projeto final")
+    print("   2. Veja os resultados de clustering em outputs/clustering/")
+    print("   3. Compare dashboards interativos (.html)")
+    print("   4. Use resultados para escolher melhores parâmetros")
+    print("   5. Analise índices de Dunn para avaliação de qualidade")
     print()
 
 
@@ -281,6 +314,9 @@ def main():
         dashboard_files = step_6_create_dashboard(
             X_scaled, image_paths, pca_results, tsne_results, umap_results
         )
+        
+        # Passo 7: Clustering (Etapa 1.2)
+        clustering_success = step_7_clustering_analysis()
         
         # Tempo total
         total_time = time.time() - start_time

@@ -62,6 +62,20 @@ CSV_COLUMNS = {
     "umap": ["UMAP1", "UMAP2", "...", "UMAPn", "image_path", "sample_id", "folder", "filename"]
 }
 
+## Diretórios
+OUTPUTS_DIR = "outputs"
+DATA_DIR = "data"
+FIGURES_DIR = "outputs/figures"
+EMBEDDINGS_DIR = "outputs/embeddings"
+
+## Clustering (Etapa 1.2)
+CLUSTERING_PARAMS = {
+    "k_range": list(range(2, 26)),  # K = 2 até 25
+    "algorithms": ["kmeans", "kmedoids"],
+    "random_state": 42,
+    "max_iter": 300
+}
+
 ## Metodologia para relatório
 METHODOLOGY_NOTES = """
 1. Dataset: 640 imagens de faces (RecFac), 20 pessoas, ~32 imagens/pessoa
@@ -69,6 +83,7 @@ METHODOLOGY_NOTES = """
 3. t-SNE: Projeção 2D para visualização da separabilidade
 4. PCA: Redução preservando 90%, 80%, 75% da variância
 5. UMAP: Redução para 3, 15, 55, 101 dimensões
-6. Todos os algoritmos com random_state=42 para reprodutibilidade
-7. Saídas em CSV para uso posterior em clustering (K-means/K-medoids)
+6. Clustering: K-means e K-medoids com K=2 até 25, avaliação por índice de Dunn
+7. Todos os algoritmos com random_state=42 para reprodutibilidade
+8. Saídas em CSV para uso posterior e análises comparativas
 """
